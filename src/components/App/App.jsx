@@ -1,27 +1,29 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ContactForm from '../ContactForm';
 import ContactsList from '../ContactsList';
 import Filter from '../Filter';
 import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
-
-import data from 'components/data/contacts';
-
 import Wrapper from '../Wrapper';
+import { addContactBefore, removeContact } from '../../redux/contacts';
+import { getFilterContacts } from '../../redux/filter';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('fox')) || data
-  );
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [filter, setFilter] = useState('');
+  // const [filter, setFilter] = useState('');
 
   const lowerCaseValue = value => {
     return value.toLowerCase();
   };
 
   const error = totel => Notiflix.Notify.failure(totel);
+
   const addContact = event => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -43,7 +45,7 @@ export const App = () => {
       setName(nameForm);
       setNumber(numberForm);
     }
-    setContacts(prevContact => [...prevContact, contact]);
+    dispatch(addContactBefore(contact));
     setName('');
     setNumber('');
     form.elements.name.value = '';
@@ -70,13 +72,12 @@ export const App = () => {
 
   const setFilters = e => {
     const { value } = e.target;
-    setFilter(value);
+    dispatch(getFilterContacts(value));
+    // setFilter(value);
   };
 
   const onDeleteContact = id => {
-    setContacts(prevContacts =>
-      prevContacts.filter(contact => contact.id !== id)
-    );
+    dispatch(removeContact(id));
   };
 
   useEffect(() => {

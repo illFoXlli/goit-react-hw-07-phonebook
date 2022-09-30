@@ -7,7 +7,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
 const ContactsList = ({ toShow, onDeleteContact, error }) => {
-  // console.log(toShow());
   if (toShow().length) {
     return (
       <Contacts>
