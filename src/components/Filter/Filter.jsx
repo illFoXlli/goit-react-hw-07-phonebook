@@ -1,7 +1,15 @@
-import PropTypes from 'prop-types';
 import { InputFilter, Box } from './Filter.styled';
+import { useDispatch } from 'react-redux';
+import { getFilterContacts } from '../../redux/filter/filterSlicer';
 
-const Filter = ({ setFilter }) => {
+const Filter = () => {
+  const dispatch = useDispatch();
+
+  const setFilters = e => {
+    const { value } = e.target;
+    dispatch(getFilterContacts(value));
+  };
+
   return (
     <Box>
       <InputFilter
@@ -10,14 +18,10 @@ const Filter = ({ setFilter }) => {
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
-        onChange={e => setFilter(e)}
+        onChange={setFilters}
       />
     </Box>
   );
-};
-
-Filter.propTypes = {
-  setFilter: PropTypes.func.isRequired,
 };
 
 export default Filter;

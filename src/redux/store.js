@@ -1,12 +1,18 @@
-import { composeWithDevTools } from '@redux-devtools/extension';
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import contactsReducer from './contacts';
-import filterReducer from './filter';
+import { contactsReducer } from './contacts/contactsSlicer';
+import { filterReducer } from './filter/filterSlicer';
 import storage from 'redux-persist/lib/storage';
-
-/////////////////////////////////////////////////////
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
 const rootReducer = combineReducers({
   test: (state = 2) => state,
@@ -16,16 +22,23 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: 'fox',
+  key: 'contats',
   storage,
+  blacklist: ['filter'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export let store = configureStore(
-  rootReducer,
-  composeWithDevTools(),
-  persistedReducer
-);
+const middleware = getDefaultMiddleware =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  });
 
-export let persistor = persistStore(store);
+export let store = configureStore({
+  reducer: persistedReducer,
+  middleware,
+});
+
+export const persistStores = persistStore(store);
