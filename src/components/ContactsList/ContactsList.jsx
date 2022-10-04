@@ -1,28 +1,26 @@
 import * as React from 'react';
 import { nanoid } from 'nanoid';
+import { useEffect } from 'react';
 
 import { Contacts, ContactsItem } from './Contacts.styled';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteContact,
+  fetchContacts,
+  addContacts,
+} from '../../redux/feach/feach';
+import { error } from '../utils/error';
+import { lowerCaseValue } from '../utils/utilits';
 import { removeContact } from '../../redux/contacts/contactsSlicer';
-import Notiflix from 'notiflix';
 
 const ContactsList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.filter);
-
-  const onDeleteContact = id => {
-    dispatch(removeContact(id));
-  };
-
-  const error = totel => Notiflix.Notify.failure(totel);
-
-  const lowerCaseValue = value => {
-    return value.toLowerCase();
-  };
+  const { status } = useSelector(state => state.contacts);
 
   const toShow = () => {
     if (filter === '') {
@@ -39,12 +37,22 @@ const ContactsList = () => {
       <Contacts>
         {toShow().map(contact => {
           return (
-            <ContactsItem key={nanoid()}>
-              <p>{`${contact.name}: ${contact.number}`}</p>
+            <ContactsItem key={contact.id}>
+              <ul>
+                <li>
+                  {' '}
+                  <p>{`${contact.name}`} </p>
+                </li>
+                <li>
+                  <p>{`${contact.number}`}</p>
+                </li>
+              </ul>
+
               <Stack direction="row" spacing={1}>
                 <IconButton
+                  disabled={status === 'loading'}
                   aria-label="delete"
-                  onClick={() => onDeleteContact(contact.id)}
+                  onClick={() => dispatch(deleteContact(contact.id))}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -54,10 +62,11 @@ const ContactsList = () => {
         })}
       </Contacts>
     );
-  } else {
-    error('List is empty');
-    return <h2>List is empty</h2>;
   }
+  // else {
+  //   error('List is empty');
+  //   return <h2>List is empty</h2>;
+  // }
 };
 
 export default ContactsList;

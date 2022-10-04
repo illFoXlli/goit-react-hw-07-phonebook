@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import { error } from '../utils/error';
 import { lowerCaseValue } from '../utils/utilits';
 import { addContactBefore } from '../../redux/contacts/contactsSlicer';
+import { addContacts } from 'redux/feach/feach';
 
 import {
   FormSubmit,
@@ -17,35 +18,21 @@ const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
 
   const addContact = event => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const nameForm = form.elements.name.value;
-    const numberForm = form.elements.number.value;
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
     let marker = contacts.some(
-      item => item.name.toLowerCase() === lowerCaseValue(nameForm)
+      item => item.name.toLowerCase() === lowerCaseValue(name)
     );
 
     if (marker) {
-      return error(` ${nameForm}is already in contacts`);
-    } else {
-      setName(nameForm);
-      setNumber(numberForm);
+      return error(` ${name}is already in contacts`);
     }
-    dispatch(addContactBefore(contact));
+    dispatch(addContacts({ name, number }));
     setName('');
     setNumber('');
-    // form.elements.name.value = '';
-    // form.elements.number.value = '';
   };
 
   const onChangeInputName = е => {
@@ -58,7 +45,7 @@ const ContactForm = () => {
 
   return (
     <>
-      <FormSubmit onSubmit={e => addContact(e)}>
+      <FormSubmit onSubmit={addContact}>
         <LabelName>
           Имя:
           <input
