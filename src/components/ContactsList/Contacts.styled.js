@@ -5,6 +5,9 @@ export const Contacts = styled.ul`
   margin: 0;
   margin-bottom: 8px;
 
+  max-height: 300px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
   list-style: none;
   border-radius: 5px;
 
@@ -12,7 +15,7 @@ export const Contacts = styled.ul`
   padding: 20px;
   border: 2px solid rgb(155, 191, 49);
   box-shadow: 0px 2px 8px 0px rgba(227, 102, 212, 0.2);
-  background-color: oldlace;
+  background-color: pink;
   border-radius: 10px;
 `;
 

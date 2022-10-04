@@ -3,8 +3,8 @@ import ContactsList from '../ContactsList';
 import Filter from '../Filter';
 import Wrapper from '../Wrapper';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts, deleteContact } from '../../redux/feach/feach';
+import { useDispatch } from 'react-redux';
+import { fetchContacts } from '../../redux/feach/feach';
 
 export const App = () => {
   const dispatch = useDispatch();

@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { contactsReducer } from './contacts/contactsSlicer';
 import { filterReducer } from './filter/filterSlicer';
-import { fetchContacts } from './feach/feach';
 // import storage from 'redux-persist/lib/storage';
 // import {
 //   persistStore,

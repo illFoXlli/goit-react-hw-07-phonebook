@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as React from 'react';
-import { nanoid } from 'nanoid';
 import { error } from '../utils/error';
 import { lowerCaseValue } from '../utils/utilits';
-import { addContactBefore } from '../../redux/contacts/contactsSlicer';
 import { addContacts } from 'redux/feach/feach';
 
 import {

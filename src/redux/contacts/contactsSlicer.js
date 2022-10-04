@@ -9,14 +9,7 @@ const contactsSlice = createSlice({
     status: null,
     error: null,
   },
-  // reducers: {
-  //   addContactAfter(state, action) {
-  //     state.push(action.payload);
-  //   },
-  //   addContactBefore(state, action) {
-  //     state.unshift(action.payload);
-  //   },
-  // },
+
   extraReducers: {
     [fetchContacts.pending]: (state, action) => {
       state.status = 'loading';
@@ -54,7 +47,7 @@ const contactsSlice = createSlice({
     [addContacts.fulfilled]: (state, action) => {
       console.log(state.status);
       state.status = 'resolved';
-      state.items.push(action.payload);
+      state.items.unshift(action.payload);
     },
     [addContacts.rejected]: (state, action) => {
       console.log(state.status);

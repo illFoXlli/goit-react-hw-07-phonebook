@@ -12,6 +12,6 @@ export const Box = styled.div`
   padding: 20px;
   border: 2px solid rgb(137, 160, 72);
   box-shadow: 0px 2px 8px 0px rgba(227, 102, 212, 0.2);
-  background-color: oldlace;
+  background-color: pink;
   border-radius: 10px;
 `;

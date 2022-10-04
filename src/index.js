@@ -18,3 +18,20 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Provider>
   </React.StrictMode>
 );
+
+function makeAdder(x) {
+  let s = 100;
+  return function bobBig(y) {
+    return x + y + s;
+  };
+}
+
+var xxxxx = makeAdder(5);
+var add10 = makeAdder(10);
+
+console.log(xxxxx(2)); // 7
+console.log(add10(2)); // 12
+
+console.log(xxxxx);
+
+console.log(add10);
